@@ -16,8 +16,8 @@ Time to do it The Linux Way and just roll our own.
 
 # Requirements
 
-Python3
-This Runs On: Linux, Windows, Mac
+* Python3
+* Linux, Windows, Mac
 
 # This Code is an Unstable Horror Show
 Do not ever run this.

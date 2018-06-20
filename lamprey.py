@@ -1,28 +1,29 @@
-import socket
-import sys
+# total rework for python 3 and its lovely http library
+# deal with raw sockets another time
+from http.server import BaseHTTPRequestHandler, HTTPServer
 
-# To Do: 
-# 1. Read a JSON or YAML config file  
-# 2. Loop for every port/listener you want the program to make. 
-# 3. Serve back the response as defined in the config file when somebody connects
-#    This sort of "defines" what kind of server a client thinks it is talking to.
-#    Reply with an SMTP header on any port, and that's what you are telling the client you are.
-#    There is no need to write config for specific daemon types, unless their responses
-#    are gross encrypted binary (ssh https et al.)
+class webServerHandler(BaseHTTPRequestHandler):
+    # method handlers (from BaseHTTPRequestHandler)
+    # GET
+ 
+    def do_GET(self):
+        self.send_response(200)
 
-# The initial variables. Feel free to alter these.
-host=''
-port = 80
-# Make a socket object, set some options
-conn = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-conn.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        self.send_header('Content-type','text/html')
+        self.end_headers()
 
-# Bind a port to our socket, so folks can connect to it
-conn.bind(host, port)
+        replyMessage = "moo"
+        self.wfile.write(bytes(replyMessage, "utf8"))
+        return
 
-conn.listen(5)
-print(f'Your server is now running on host {host} and listening on port {port}')
+# A function to run the httpd server using our handler class.
+def startHttpd(addy,port):
+    print(f"Starting fake http server on address {addy} and port {port}")
+    server_address = (addy, port)
+    httpd = HTTPServer(server_address, webServerHandler)
+    httpd.serve_forever()
 
-while 1:
-    (clientsocket, address) = conn.accept()
-    
+
+# Main
+print("Starting up...")
+startHttpd('127.0.0.1', 8000)
