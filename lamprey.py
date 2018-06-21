@@ -13,6 +13,17 @@ class webServerHandler(BaseHTTPRequestHandler):
         self.end_headers()
 
         replyMessage = "moo"
+        # Insert Poison Pen here
+        self.wfile.write(bytes(replyMessage, "utf8"))
+        return
+
+    def do_PUT(self):
+        self.send_response(201)
+
+        self.send_header('Content-location',"/command.com")
+        self.end_headers()
+
+        replyMessage = "Yup."
         self.wfile.write(bytes(replyMessage, "utf8"))
         return
 
