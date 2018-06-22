@@ -4,7 +4,8 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 
 class webServerHandler(BaseHTTPRequestHandler):
     # method handlers (from BaseHTTPRequestHandler)
-
+    server_version = "Zeus"
+    sys_version = "(httpd/0.0.b5)"
     # GET
     def do_GET(self):
         self.send_response(200)
